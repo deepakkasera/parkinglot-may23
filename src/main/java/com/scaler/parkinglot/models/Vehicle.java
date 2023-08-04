@@ -1,7 +1,22 @@
 package com.scaler.parkinglot.models;
 
-public class Vehicle {
+public class Vehicle extends BaseEntity {
     private VehicleType vehicleType;
     private String number;
-    private Long id;
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 }

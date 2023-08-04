@@ -1,6 +1,12 @@
 package com.scaler.parkinglot.models;
 
-public class Operator {
-    private Long id;
+public class Operator extends BaseEntity {
     private String name;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

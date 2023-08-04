@@ -1,4 +1,4 @@
 package com.scaler.parkinglot.models;
 
-public class ElectricCharger {
+public class ElectricCharger extends BaseEntity {
 }
