@@ -1,5 +1,6 @@
 package com.scaler.parkinglot.services;
 
+import com.scaler.parkinglot.excpetions.NoParkingSpotFoundException;
 import com.scaler.parkinglot.models.*;
 import com.scaler.parkinglot.strategy.SpotAssignmentStrategy;
 
@@ -18,7 +19,7 @@ public class TicketService {
         this.spotAssignmentStrategy = spotAssignmentStrategy;
     }
 
-    public Ticket generateTicket(String vehicleNumber, VehicleType vehicleType, Long gateId) {
+    public Ticket generateTicket(String vehicleNumber, VehicleType vehicleType, Long gateId) throws NoParkingSpotFoundException {
         /*
         Flow :-
             -> Get the vehicle details from the DB, if the Vehicle is not present then
@@ -38,18 +39,19 @@ public class TicketService {
         ticket.setVehicle(vehicle);
         ticket.setGate(gate);
         ticket.setOperator(gate.getOperator());
-        ticket.setEntryTime(System.currentTimeMillis());
+        ticket.setEntryTime(new Date());
 
         ParkingSpot parkingSpot = spotAssignmentStrategy.assignSpot(vehicleType, gate);
 
         if (parkingSpot == null) {
             //No ParkingSpot is available.
             //Throw an Exception.
+            throw new NoParkingSpotFoundException("No ParkingSpot found.");
         }
 
         //ParkingSpot assignment
-        ticket.setParkingSpot();
+        ticket.setParkingSpot(parkingSpot);
 
-        return null;
+        return ticket;
     }
 }

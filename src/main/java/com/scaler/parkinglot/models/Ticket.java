@@ -3,17 +3,17 @@ package com.scaler.parkinglot.models;
 import java.util.Date;
 
 public class Ticket extends BaseEntity {
-    private Date entryTime;
+    private long entryTime;
     private Operator operator;
     private Gate gate;
     private Vehicle vehicle;
     private ParkingSpot parkingSpot;
 
-    public Date getEntryTime() {
+    public long getEntryTime() {
         return entryTime;
     }
 
-    public void setEntryTime(long entryTime) {
+    public void setEntryTime(Date entryTime) {
         this.entryTime = entryTime;
     }
 

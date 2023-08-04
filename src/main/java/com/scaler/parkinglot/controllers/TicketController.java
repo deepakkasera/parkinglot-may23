@@ -2,8 +2,11 @@ package com.scaler.parkinglot.controllers;
 
 import com.scaler.parkinglot.dto.GenerateTicketRequestDto;
 import com.scaler.parkinglot.dto.GenerateTicketResponseDto;
+import com.scaler.parkinglot.excpetions.NoParkingSpotFoundException;
 import com.scaler.parkinglot.models.*;
 import com.scaler.parkinglot.services.TicketService;
+
+import java.sql.PreparedStatement;
 
 public class TicketController {
     private TicketService ticketService;
@@ -24,16 +27,17 @@ public class TicketController {
             -> 2. vehicleRepository.fetchVehicle(number)
          */
 
-        Ticket ticket = ticketService.generateTicket(requestDto.getVehicleNumber(),
-                requestDto.getVehicleType(), requestDto.getGateId());
+        GenerateTicketResponseDto responseDto  = new GenerateTicketResponseDto();
+        try {
+            Ticket ticket = ticketService.generateTicket(requestDto.getVehicleNumber(),
+                    requestDto.getVehicleType(), requestDto.getGateId());
 
-        GenerateTicketResponseDto responseDto = new GenerateTicketResponseDto();
-        responseDto.setTicket(ticket);
-        //responseDto.setResponseStatus();
-
-
-
-        return null;
+            responseDto.setTicket(ticket);
+            responseDto.setResponseStatus(ResponseStatus.SUCCESS);
+        } catch (NoParkingSpotFoundException exception) {
+            responseDto.setResponseStatus(ResponseStatus.FAILURE);
+        }
+        return responseDto;
     }
 
 }
